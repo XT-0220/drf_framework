@@ -20,9 +20,7 @@ class BookInfoViewSet(ModelViewSet):
     serializer_class = BookInfoSerializer
 
 # /books/
-class BookListView(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
-                   GenericAPIView):
+class BookListView(ModelViewSet):
 
     serializer_class = BookInfoSerializer
 
@@ -30,10 +28,7 @@ class BookListView(mixins.ListModelMixin,
 
 
 
-class BookDetailView(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     GenericAPIView):
+class BookDetailView(ModelViewSet):
 
     serializer_class= BookInfoSerializer
 
