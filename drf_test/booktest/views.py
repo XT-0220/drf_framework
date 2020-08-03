@@ -1,7 +1,9 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 from booktest.serializers import BookInfoSerializer
 from booktest.models import BookInfo
@@ -16,7 +18,9 @@ class BookInfoViewSet(ModelViewSet):
     serializer_class = BookInfoSerializer
 
 # /books/
-class BookListView(GenericAPIView):
+class BookListView(ListModelMixin,
+                   CreateModelMixin,
+                   GenericAPIView):
 
     serializer_class = BookInfoSerializer
 
@@ -30,9 +34,9 @@ class BookListView(GenericAPIView):
         """
         # ① 查询数据库获取所有图书数据
         # books = BookInfo.objects.all()
-        queryset = self.get_queryset()
+        # queryset = self.get_queryset()
 
-        serializer = self.get_serializer(queryset,many=True)
+        # serializer = self.get_serializer(queryset,many=True)
         # ② 将所有图书数据通过json进行返回
         # books_li = []
         #
@@ -49,7 +53,9 @@ class BookListView(GenericAPIView):
 
         # serializer = BookInfoSerializer(books,many=True)
 
-        return Response(serializer.data)
+        # return Response(serializer.data)
+
+        return self.list(request)
 
     def post(self, request):
         """
@@ -62,9 +68,9 @@ class BookListView(GenericAPIView):
         # req_dict = json.loads(request.body.decode())
         #
         # serializer = BookInfoSerializer(data=req_dict,many=True)
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
         # TODO: 省略参数校验过程...
 
         # ② 创建图书数据并保存到数据库
@@ -80,11 +86,15 @@ class BookListView(GenericAPIView):
         #     'bcomment': book.bcomment
         # }
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+        return self.create(request)
 
 # /books/(?P<pk>\d+)/
-class BookDetailView(GenericAPIView):
+class BookDetailView(RetrieveModelMixin,
+                     UpdateModelMixin,
+                     DestroyModelMixin,
+                     GenericAPIView):
 
     serializer_class= BookInfoSerializer
 
@@ -112,10 +122,11 @@ class BookDetailView(GenericAPIView):
         #     'bread': book.bread,
         #     'bcomment': book.bcomment
         # }
-        instance = self.get_object()
-        serializer = self.get_serializer(instance,many=True)
-        # serializer = BookInfoSerializer(data=book,many=True)
-        return JsonResponse(serializer.data)
+        # instance = self.get_object()
+        # serializer = self.get_serializer(instance,many=True)
+        # # serializer = BookInfoSerializer(data=book,many=True)
+        # return JsonResponse(serializer.data)
+        return self.retrieve(request)
 
     def put(self, request, pk):
         """
@@ -132,11 +143,11 @@ class BookDetailView(GenericAPIView):
         #     # 图书不存在
         #     # return JsonResponse({'detail': 'not found'}, status=404)
         #     raise Http404
-        instance = self.get_object()
-        serializer = self.get_serializer(instance,many=True)
-        # serializer = BookInfoSerializer(data=book,many=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        # instance = self.get_object()
+        # serializer = self.get_serializer(instance,many=True)
+        # # serializer = BookInfoSerializer(data=book,many=True)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
         # ② 获取参数并进行校验
         # req_dict = json.loads(request.body.decode())
 
@@ -159,7 +170,9 @@ class BookDetailView(GenericAPIView):
         #     'bcomment': book.bcomment
         # }
 
-        return Response(serializer.data)
+        # return Response(serializer.data)
+
+        return self.update(request)
 
     def delete(self, request, pk):
         """
@@ -175,10 +188,12 @@ class BookDetailView(GenericAPIView):
         #     # 图书不存在
         #     # return JsonResponse({'detail': 'not found'}, status=404)
         #     raise Http404
-        instance = self.get_object()
+        # instance = self.get_object()
 
         # ② 删除指定图书数据
-        instance.delete()
+        # instance.delete()
 
         # ③ 返回响应
-        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+        # return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+        return self.destroy(request)
