@@ -2,11 +2,14 @@ from django.urls import re_path
 from booktest import views
 
 urlpatterns = [
-    re_path(r'^books/$', views.BoonInfoViewSet.as_view({
+    re_path(r'^books/$', views.BooKInfoViewSet.as_view({
         "get":'list',
+        "post":'create',
     })),
-    re_path(r'^books/(?P<pk>\d+)/$', views.BoonInfoViewSet.as_view({
-        "get":'retrive'
+    re_path(r'^books/(?P<pk>\d+)/$', views.BooKInfoViewSet.as_view({
+        "get": 'retrieve',
+        "put": 'update',
+        "delete": 'destroy',
     })),
 ]
 

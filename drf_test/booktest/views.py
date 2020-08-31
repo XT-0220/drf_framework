@@ -1,12 +1,12 @@
 from django.http import Http404
 from rest_framework import mixins
-from rest_framework.viewsets import ViewSet, GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.response import Response
 from booktest.models import BookInfo
 from booktest.serializers import BookInfoSerializer
 
 
-class BoonInfoViewSet(ReadOnlyModelViewSet):
+class BooKInfoViewSet(ModelViewSet):
     serializer_class = BookInfoSerializer
     queryset = BookInfo.objects.all()
 
