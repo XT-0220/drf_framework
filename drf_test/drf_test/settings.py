@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-DEFAULTS = {
+REST_FRAMEWORK = {
     # 1.认证
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # session认证   仅使用session认证方式
@@ -141,5 +141,19 @@ DEFAULTS = {
         # 此处设置全局权限控制方式为：仅允许通过认证的用户访问
         # 'rest_framework.permissions.IsAuthenticated',
     ),
-
+    # 3.限流
+    # 针对匿名用户和认证通过用户分别进行限流控制
+    'DEFAULT_THROTTLE_CLASSES': (
+        # 针对未登录(匿名)用户的限流控制类
+        'rest_framework.throttling.AnonRateThrottle',
+        # 针对登录(认证通过)用户的限流控制类
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    # 指定限流频次
+    'DEFAULT_THROTTLE_RATES': {
+        # 认证用户的限流频次
+        'user': '5/minute',
+        # 匿名用户的限流频次
+        'anon': '3/minute',
+    },
 }

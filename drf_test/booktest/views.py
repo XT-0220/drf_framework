@@ -2,6 +2,7 @@ from django.http import Http404
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.permissions import BasePermission
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.response import Response
 from booktest.models import BookInfo
@@ -32,6 +33,11 @@ class BooKInfoViewSet(ModelViewSet):
 
     # 使用自定义的权限控制类
     permission_classes = [MyPermission]
+
+    # 分别限流
+    throttle_classes = [AnonRateThrottle]
+    # 此处指定当前视图采用contacts限流频次进行限流
+    # throttle_scope = 'contacts'
 
     # def list(self,request):
     #     book = self.get_queryset()
