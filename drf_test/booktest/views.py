@@ -28,15 +28,15 @@ class BooKInfoViewSet(ModelViewSet):
     serializer_class = BookInfoSerializer
     queryset = BookInfo.objects.all()
 
-    # 指定当前视图自己的认证方案，不再使用全局认证方案
+    # 1. 指定当前视图自己的认证方案，不再使用全局认证方案
     authentication_classes = [SessionAuthentication]
 
-    # 使用自定义的权限控制类
+    # 2. 使用自定义的权限控制类
     permission_classes = [MyPermission]
 
-    # 分别限流
+    # 3.1分别限流
     # throttle_classes = [AnonRateThrottle]
-    # 此处指定当前视图采用contacts限流频次进行限流
+    # 3.2 此处指定当前视图采用contacts限流频次进行限流
     throttle_scope = 'contacts'
 
     # def list(self,request):
