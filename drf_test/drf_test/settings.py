@@ -168,5 +168,9 @@ REST_FRAMEWORK = {
         'upload': '3/minute',
         'contacts': '5/minute'
     },
-
+    # 4.分页
+    # 设置DRF框架所使用的全局分页类
+    "DEFAULT_PAGINATION_CLASS":"rest_framework.page.PageNumberPagination",
+    # # 指定页容量为2
+    # "PAGE_SIZE": 2
 }

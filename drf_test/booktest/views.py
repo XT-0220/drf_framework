@@ -6,6 +6,7 @@ from rest_framework.throttling import AnonRateThrottle
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.response import Response
 from booktest.models import BookInfo
+from booktest.page import StandardResultPagination
 from booktest.serializers import BookInfoSerializer
 from rest_framework.authentication import SessionAuthentication
 
@@ -39,6 +40,9 @@ class BooKInfoViewSet(ModelViewSet):
     # 3.2 此处指定当前视图采用contacts限流频次进行限流
     throttle_scope = 'contacts'
 
+    # 4.分页
+    # 指定当前视图所使用的分页类
+    pagination_class = StandardResultPagination
     # def list(self,request):
     #     book = self.get_queryset()
     #     serializer = BookInfoSerializer(book, many=True)
