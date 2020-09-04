@@ -173,4 +173,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS":"rest_framework.page.PageNumberPagination",
     # # 指定页容量为2
     # "PAGE_SIZE": 2
+
 }
