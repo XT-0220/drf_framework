@@ -35,9 +35,9 @@ class BooKInfoViewSet(ModelViewSet):
     permission_classes = [MyPermission]
 
     # 分别限流
-    throttle_classes = [AnonRateThrottle]
+    # throttle_classes = [AnonRateThrottle]
     # 此处指定当前视图采用contacts限流频次进行限流
-    # throttle_scope = 'contacts'
+    throttle_scope = 'contacts'
 
     # def list(self,request):
     #     book = self.get_queryset()

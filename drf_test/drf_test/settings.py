@@ -142,18 +142,31 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
     ),
     # 3.限流
+    # 3.1分别限流
     # 针对匿名用户和认证通过用户分别进行限流控制
+    # 'DEFAULT_THROTTLE_CLASSES': (
+    #     # 针对未登录(匿名)用户的限流控制类
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     # 针对登录(认证通过)用户的限流控制类
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ),
+    # # 指定限流频次
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     # 认证用户的限流频次
+    #     'user': '5/minute',
+    #     # 匿名用户的限流频次
+    #     'anon': '3/minute',
+    # },
+    # 3.2 统一限流
+    # 针对匿名用户和认证用户进行统一的限流控制
     'DEFAULT_THROTTLE_CLASSES': (
-        # 针对未登录(匿名)用户的限流控制类
-        'rest_framework.throttling.AnonRateThrottle',
-        # 针对登录(认证通过)用户的限流控制类
-        'rest_framework.throttling.UserRateThrottle'
+        'rest_framework.throttling.ScopedRateThrottle',
     ),
-    # 指定限流频次
+    # 指定限流频次选择项
     'DEFAULT_THROTTLE_RATES': {
-        # 认证用户的限流频次
-        'user': '5/minute',
-        # 匿名用户的限流频次
-        'anon': '3/minute',
+    # 注：此处的限流频次选择项的名字是自己起的，只要不叫user和anon即可
+        'upload': '3/minute',
+        'contacts': '5/minute'
     },
+
 }
