@@ -125,12 +125,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# 1.认证
+
 DEFAULTS = {
+    # 1.认证
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # session认证   仅使用session认证方式
         'rest_framework.authentication.SessionAuthentication',
         # 基本认证(仅了解)
         # 'rest_framework.authentication.BasicAuthentication'
-    )
+    ),
+    # 2.权限
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 允许所有人进行访问
+        'rest_framework.permissions.AllowAny',
+        # 此处设置全局权限控制方式为：仅允许通过认证的用户访问
+        # 'rest_framework.permissions.IsAuthenticated',
+    ),
+
 }

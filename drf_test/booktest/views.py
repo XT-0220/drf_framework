@@ -1,11 +1,25 @@
 from django.http import Http404
 from rest_framework import mixins
 from rest_framework.decorators import action
+from rest_framework.permissions import BasePermission
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.response import Response
 from booktest.models import BookInfo
 from booktest.serializers import BookInfoSerializer
 from rest_framework.authentication import SessionAuthentication
+
+class MyPermission(BasePermission):
+    def has_permission(self, request, view):
+        """判断对使用此权限类的视图是否有访问权限"""
+        # 任何用户对使用此权限类的视图都有访问权限
+        return True
+
+    def has_object_permission(self, request, view, obj):
+        """判断对使用此权限类视图中的某个数据对象是否有访问权限"""
+        # 需求: 对id为1，3的数据对象有访问权限
+        if obj.id in (1, 3):
+            return True
+        return False
 
 class BooKInfoViewSet(ModelViewSet):
 
@@ -15,6 +29,9 @@ class BooKInfoViewSet(ModelViewSet):
 
     # 指定当前视图自己的认证方案，不再使用全局认证方案
     authentication_classes = [SessionAuthentication]
+
+    # 使用自定义的权限控制类
+    permission_classes = [MyPermission]
 
     # def list(self,request):
     #     book = self.get_queryset()
