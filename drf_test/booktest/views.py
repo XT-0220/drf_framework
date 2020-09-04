@@ -5,7 +5,7 @@ from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.response import Response
 from booktest.models import BookInfo
 from booktest.serializers import BookInfoSerializer
-
+from rest_framework.authentication import SessionAuthentication
 
 class BooKInfoViewSet(ModelViewSet):
 
@@ -13,6 +13,8 @@ class BooKInfoViewSet(ModelViewSet):
     serializer_class = BookInfoSerializer
     queryset = BookInfo.objects.all()
 
+    # 指定当前视图自己的认证方案，不再使用全局认证方案
+    authentication_classes = [SessionAuthentication]
 
     # def list(self,request):
     #     book = self.get_queryset()

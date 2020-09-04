@@ -124,3 +124,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 1.认证
+DEFAULTS = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # session认证   仅使用session认证方式
+        'rest_framework.authentication.SessionAuthentication',
+        # 基本认证(仅了解)
+        # 'rest_framework.authentication.BasicAuthentication'
+    )
+}
